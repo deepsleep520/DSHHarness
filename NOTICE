@@ -1,0 +1,22 @@
+DSH Harness
+Copyright 2026 deepsleep520. All rights reserved.
+
+This repository publishes DSH Harness as a prebuilt binary (see Releases).
+The application's own source code, assets and build scripts are NOT part of
+this repository and are not licensed for reuse; see LICENSE-APP.md.
+
+--------------------------------------------------------------------------
+Third-party components bundled inside the released APK
+(they are separate projects, distributed under their own licenses):
+
+  PRoot                     https://github.com/termux/proot        GPL-2.0
+  Alpine Linux              https://alpinelinux.org/               (various)
+  Node.js                   https://nodejs.org/                    MIT
+  talloc                    https://talloc.samba.org/              LGPL-3.0
+  @deepseek-ai/dsh          https://www.npmjs.com/package/@deepseek-ai/dsh
+                                                                   MIT
+  Shizuku API               https://shizuku.rikka.app/             Apache-2.0
+  AndroidX / Android SDK    https://developer.android.com/         Apache-2.0
+
+Full license texts: licenses/   Details and source offers:
+THIRD_PARTY_NOTICES.md

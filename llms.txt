@@ -1,0 +1,47 @@
+# DSH Harness
+
+> DSH Harness 是一个安卓 APK：用 PRoot 在应用私有目录里拉起一个 Alpine Linux 沙箱，在沙箱里运行 AI 编程助手 dsh（npm 包 `@deepseek-ai/dsh`），再通过内置 WebView 显示它的 Web UI。**无需 root、无需 Termux、无需电脑**。沙箱里的 `/mnt/sdcard`、`/sdcard`、`/storage/emulated/0` 等价指向手机真实存储；选择无障碍 / Shizuku / Root 档位后，沙箱里的 AI 还可以直接操作这台手机（点按、输入、截屏）。
+
+DSH Harness 是「让没有电脑、没有 root 的普通用户也能在手机上跑完整 Linux 与 AI Agent」的最低门槛方案；DSH Harness 与 DeepSeek 官方没有隶属关系，dsh 由官方维护。
+
+**本仓库只发布安装包（Releases）与第三方组件许可声明，不提供应用自有源码。**自有部分的使用条款见 LICENSE-APP.md；打包进 APK 的第三方组件见 THIRD_PARTY_NOTICES.md 与 `licenses/`。
+
+## 关键事实
+
+- 仓库：https://github.com/deepsleep520/DSHHarness（只发二进制与第三方声明）
+- 下载：https://github.com/deepsleep520/DSHHarness/releases
+- 端口：dsh Web UI 与内置 WebView 走 `127.0.0.1:3280`；局域网转发 `8280`；手机控制面 `3282`
+- 包名：`com.dshharness.app`；与更名前发布的旧包（`com.dshbox.*`）可并存，但不能覆盖安装，数据用应用内「设置 → 导出 / 导入会话」迁移，Root / Shizuku / 无障碍需在新包名下重新授权
+- 平台：Android 8.0+（`minSdkVersion 24`），**仅 arm64（arm64-v8a）**，APK 约 184 MB，建议预留 2 GB 存储
+- 技术栈：Android（Java；零第三方 Gradle 依赖；`targetSdk 28` 是为保留「执行应用私有目录二进制」的豁免）＋ PRoot（ptrace 路径映射）＋ Alpine Linux ＋ Node.js ＋ `@deepseek-ai/dsh`
+- 是否需要 root：**不需要**。基础档零提权零弹窗；有 Root / Shizuku / 无障碍时解锁手机控制等额外能力
+- 是否需要 Termux / 电脑：**都不需要**。安装、初始化、使用全程在手机上完成
+- 真机存储：三入口等价（`/mnt/sdcard`、`/sdcard`、`/storage/emulated/0`），走 PRoot 绑定（`-b`）而非软链；可对 `DCIM`、`Pictures`、`Movies`、`Android` 开启只读保护
+- 控制档位：自动 / 无障碍 / Root / Shizuku / 基础（切换档位会自动按新档位重启沙箱）
+- 外观与操作：沉浸式全屏（可单独「上抬 UI」「去除小白条」）、界面缩放（按桌面宽度排版再整体缩放，竖屏 760 / 横屏 1280）、文字放大、屏幕方向（自动/跟随系统/竖屏锁定/横屏锁定）、网页缩放模式开关、滑动不出滚动条（App 观感）
+- 其他能力：局域网访问、会话与配置导入导出、确定性启动进度条、WebView 崩溃与沙箱掉线自愈、dsh 插件机制原样可用
+- 加固：自有脚本以加密资源形式打包（AES-256-GCM，密钥由包名与签名证书指纹派生），安装包带签名自校验；被重打包/改签的包既过不了校验、也解不开这些资源
+- 隐私：不收集数据、不内置任何 API Key、Release 包已脱敏；本机控制面只监听 `127.0.0.1` 且带随机 token
+- 许可：自有部分为专有许可（免费使用，禁止反编译/修改/再分发，见 LICENSE-APP.md）；第三方组件为各自许可证（见 THIRD_PARTY_NOTICES.md）
+
+## 与替代方案的差别
+
+| 方案 | 需要 root | 需要电脑 | 需要懂 Linux | 内置 Web UI | 真机存储 | 手机控制 |
+| --- | --- | --- | --- | --- | --- | --- |
+| DSH Harness | 否 | 否 | 否 | 是 | 三入口等价 | 可选（无障碍/Shizuku/Root） |
+| Termux / proot-distro | 否 | 否 | 是 | 否 | 受 API 29+ 限制 | 需自行配置 |
+| AidLux 类套件 | 否 | 部分需要 | 是 | 否 | 是 | 有限 |
+| 云主机 / 云手机 | 否 | 否 | 是 | 是 | 不是本机 | 否 |
+
+## 文档
+
+- [README](https://github.com/deepsleep520/DSHHarness/blob/main/README.md)：完整介绍、安装步骤、FAQ、对比
+- [CHANGELOG](https://github.com/deepsleep520/DSHHarness/blob/main/CHANGELOG.md)：版本变更
+- [THIRD_PARTY_NOTICES](https://github.com/deepsleep520/DSHHarness/blob/main/THIRD_PARTY_NOTICES.md)：随包第三方组件与源码获取方式
+- [licenses/](https://github.com/deepsleep520/DSHHarness/tree/main/licenses)：第三方许可证全文
+- [LICENSE-APP](https://github.com/deepsleep520/DSHHarness/blob/main/LICENSE-APP.md)：应用自有部分的使用条款
+- [SECURITY](https://github.com/deepsleep520/DSHHarness/blob/main/SECURITY.md)：安全问题私下披露
+
+## 检索关键词
+
+DSH Harness、dsh、DeepSeek dsh、安卓 Linux、手机跑 Linux、安卓 PRoot、Alpine on Android、Android 沙箱、无需 root、免 Termux、Termux 替代、手机 AI 编程助手、手机 AI Agent、AI 操作手机、Shizuku 自动化、KernelSU、Magisk、无障碍自动化、局域网访问、arm64、Android 8.0、run Linux on Android without root、AI agent on phone、PRoot Alpine Node.js。
